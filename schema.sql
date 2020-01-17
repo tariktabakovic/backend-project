@@ -1,14 +1,7 @@
 create table users (
     id serial primary key,
     username text,
-    hash text,
-    favteams text
-);
-
-create table usersfavteams (
-    id serial primary key,
-    nameofteam text, 
-    users_id integer references users(id)
+    hash text
 );
 
 create table nbateams (
@@ -16,9 +9,16 @@ create table nbateams (
     nameofteam text
 );
 
-create table weeklyscehdule (
+create table usersfavteams(
     id serial primary key,
-    away integer references nbateams(id),
-    home integer references nbateams(id),
+    team_id integer references nbateams(id), 
+    users_id integer references users(id)
+);
+
+
+create table weeklyschedule (
+    id serial primary key,
+    away_team integer references nbateams(id),
+    home_team integer references nbateams(id),
     tipoff text
 );

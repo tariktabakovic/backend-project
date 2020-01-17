@@ -1,8 +1,8 @@
 insert into users
-    (username, hash, favteams)
-values
-    ('Tarik', '', 'Atlanta Hawks')
-;
+    (username, hash)
+    values
+    ('Tarik', '');
+
 insert into nbateams
     (nameofteam)
     values
@@ -35,5 +35,15 @@ insert into nbateams
 ('San Antonio Spurs'), 
 ('Toronto Raptors'), 
 ('Utah Jazz'), 
-('Washington Wizards')
-;
+('Washington Wizards');
+
+insert into usersfavteams
+    (team_id, users_id)
+    values
+    ('2', '1');
+
+insert into weeklyschedule
+    (away_team, home_team, tipoff)
+    values
+    ('1', '2', '10:30pm');
+    
