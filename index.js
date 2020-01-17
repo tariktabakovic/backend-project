@@ -3,6 +3,19 @@ const express = require('express');
 const app = express();
 const PORT = 3007;
 
+const session = require("express-session");
+const FileStore = require("session-file-store")(session);
+
+app.use(session({
+    store: new FileStore({}),
+    secret: ""
+}));
+
+app.use((req, res, next)=>{
+    console.log(req.session);
+    next();
+});
+
 const es6renderer = require('express-es6-template-engine');
 app.engine('html', es6renderer);
 app.set('views', 'templates');
@@ -15,9 +28,10 @@ const parseForm = bodyParser.urlencoded({
 
 const server = http.createServer(app);
 
+const users = require('./models/users');
 
 app.get('/', async (req, res)=>{
-    res.render('/home')
+    res.render('home')
 })
 
 app.post('/', async (req, res)=>{
@@ -36,22 +50,31 @@ function requireLogin(req, res, next){
         res.redirect('users/auth');
     }
 };
+
+app.get('/signup', async (req, res)=>{
+    res.render('users/signup');
+})
+
+app.get('/signup', async (req, res)=>{
+    res.redirect('users/auth');
+})
+
 app.get('/login', async (req,res) => {
     res.render('users/auth');
 })
 
 app.post('/login', parseForm, async (req, res) =>{
     console.log(req.body);
-    const { name, password }= req.body;
-    const didLoginSuccessfully = await users.login(name, password);
+    const { username, password }= req.body;
+    const didLoginSuccessfully = await users.login(username, password);
     if (didLoginSuccessfully){
-        const theUser = await users.getByUsername(name);
+        const theUser = await users.getByUsername(username);
         req.session.user = {
-            name, 
+            username, 
             id: theUser.id
         };
         req.session.save(()=>{
-            res.redirect('/home')
+            res.redirect('/games')
         });
     }else {
         console.log('Incorrect username or password.')
@@ -75,7 +98,7 @@ app.post('/chatrooms', requireLogin, async (req, res) =>{
 
 })
 
-app.get('/logout', (req, res)=>{
+app.get('/logout', requireLogin, async (req, res)=>{
     req.session.destroy(()=>{
         res.redirect('/login')
     });

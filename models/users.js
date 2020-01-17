@@ -7,32 +7,48 @@ function createHash(password){
 };
 
 // create
-function create(username, password){
+async function create(username, password){
     const hash = createHash(password);
-    const newUser = {
-        username,
-        hash
-    };
-    console.log(newUser);
-    usersDb.push(newUser);
-};
+    const result = await db.one (`
+    insert into users
+    (username, hash)
+    values
+    ($1, $2)
+    reutnring id
+    `, [username, hash]);
+    return result.id
+}
+// function create(username, password){
+//     const hash = createHash(password);
+//     const newUser = {
+//         username,
+//         hash
+//     };
+//     console.log(newUser);
+//     usersDb.push(newUser);
+// };
+
 
 async function login(username, password){
-    const theUser= getUser(username);
+    const theUser= getbyUsername(username);
+    // changed from getUser 
     return bcrypt.compareSync(password, theUser.hash);
 };
 
 // retrieve
-async function getUser(username){
+async function getByUsername(username){
     const theUser = await db.one(`
-        select * from users where name =$1
+        select * from users where username =$1
     `, [username]);
     return theUser;
     // return userDb.find(user => user.username == username);
 };
 
-function getUserById(id){
-
+async function getUserById(id){
+    const theUser = await db.one(`
+        select * from users where id=$1
+    `, [id]);
+    return theUser;
 }
 
 async function deleteUser(id){
@@ -40,28 +56,16 @@ async function deleteUser(id){
     console.log(result);
 };
 
-async function updateFavTeams(id, nameofteam){
-    const result = await db.result(`
-        update usersfavteams set
-            nameofteam = $1
-        where id = $2;
-    `, [nameofteam, id]);
-    if (result.rowCount === 1){
-        return id;
-    } else {
-        return null;
-    }
-};
 
 // async function deletefavteam(id){
 //     await db.result(`delete from users where id=$1`, [id] )
 // }
 
-module.exports = {
+const users = module.exports = {
     create,
+    createHash, 
     login,
-    getUser,
-    getById,
+    getByUsername,
+    getUserById,
     deleteUser,
-    updateFavTeams
 }
