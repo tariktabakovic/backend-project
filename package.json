@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "db:delete": "dropdb nba-chat-app",
     "db:create": "createdb nba-chat-app",
     "db:schema": "psql -f schema.sql nba-chat-app",
     "db:seed": "psql -f seed.sql nba-chat-app",
-    "db:reset": "npm run db:delete && npm run db:create && npm run db:schema && npm run db:seed",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:reset": "npm run db:delete && npm run db:create && npm run db:schema && npm run db:seed"
   },
   "keywords": [],
   "author": "",

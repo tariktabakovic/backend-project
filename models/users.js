@@ -11,10 +11,10 @@ async function create(username, password){
     const hash = createHash(password);
     const result = await db.one (`
     insert into users
-    (username, hash)
+        (username, hash)
     values
-    ($1, $2)
-    reutnring id
+        ($1, $2)
+    returning id
     `, [username, hash]);
     return result.id
 }
@@ -29,19 +29,20 @@ async function create(username, password){
 // };
 
 
-async function login(username, password){
-    const theUser= getbyUsername(username);
-    // changed from getUser 
-    return bcrypt.compareSync(password, theUser.hash);
-};
 
 // retrieve
 async function getByUsername(username){
     const theUser = await db.one(`
-        select * from users where username =$1
+    select * from users where username =$1
     `, [username]);
     return theUser;
     // return userDb.find(user => user.username == username);
+};
+
+async function login(username, password){
+    const theUser= getbyUsername(username);
+    // changed from getUser 
+    return bcrypt.compareSync(password, theUser.hash);
 };
 
 async function getUserById(id){
