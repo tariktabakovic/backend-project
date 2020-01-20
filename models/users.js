@@ -31,16 +31,16 @@ async function create(username, password){
 
 
 // retrieve
-async function getByUsername(username){
+async function getByUsername(username) {
     const theUser = await db.one(`
-    select * from users where username =$1
+        select * from users where username=$1
     `, [username]);
+
     return theUser;
-    // return userDb.find(user => user.username == username);
-};
+}
 
 async function login(username, password){
-    const theUser= getbyUsername(username);
+    const theUser= await getByUsername(username);
     // changed from getUser 
     return bcrypt.compareSync(password, theUser.hash);
 };
