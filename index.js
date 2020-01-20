@@ -2,17 +2,31 @@ const http = require('http');
 const express = require('express');
 
 const PORT = 3007;
+const app = express();
 
-// const session = require("express-session");
-// const FileStore = require("session-file-store")(session);
+const session = require("express-session");
+const FileStore = require("session-file-store")(session);
 
+app.use(session({
+    store: new FileStore({}),
+
+    // We will move this to a secure location, shortly.
+    secret: 'lalala1234lalala'
+}));
+
+app.use((req, res, next) =>  {
+    console.log('***********');
+    console.log(req.session);
+    console.log('***********');
+
+    next();
+});
 
 const bodyParser = require('body-parser');
 const parseForm = bodyParser.urlencoded({
     extended: true
 });
 
-const app = express();
 
 const es6renderer = require('express-es6-template-engine');
 app.engine('html', es6renderer);
@@ -76,7 +90,7 @@ app.post('/login', parseForm, async (req, res) =>{
         req.session.user = {
             username, 
             id: theUser.id
-        };
+        }
         req.session.save(()=>{
             res.redirect('/games')
         });
