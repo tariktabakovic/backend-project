@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #c75600;
+    background-image: url("https://www.transparenttextures.com/patterns/basketball.png");
+}
+
+.login-box {
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: rgb(231, 155, 13); */
+    background-image: ("images/b427d19dd6238628dc7fa8acc2c212d3.jpg");
+    text-align: center;
+}
+
+.textbox{
+    border: 0;
+    background: none;
+    display:block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}

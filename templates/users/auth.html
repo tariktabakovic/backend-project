@@ -5,20 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User-Auth</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
 </head>
 <body>
     <form method="POST">
-        <label>Name:
-            <input type="text" name= "username">
-        </label>
-        <br>
-        <label>
-            Password:
-            <input type="password" name= "password">
-        </label>
-        <br>
-        <input type="submit" value= "submit!">
-        <input type="reset">
+        <div class = "login-box">
+            <div class = "textbox">
+                 Username:
+                <input name="username" value= ${username}>
+            </div>
+            <br>
+            <div class= "textbox">
+                Password:
+                <input name="password" value= ${password}>
+            </div>
+            <br>
+                <input type="submit" value= "Submit">
+                <input type="reset" value= "Reset">
+        </div>
     </form>
 </body>
 </html>

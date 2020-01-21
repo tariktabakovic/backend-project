@@ -1,11 +1,13 @@
 const http = require('http');
 const express = require('express');
+const app = express();
 
 const PORT = 3007;
-const app = express();
+const server = http.createServer(app);
 
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
+app.use('/stylesheets', express.static('stylesheets'));
 
 app.use(session({
     store: new FileStore({}),
@@ -27,15 +29,14 @@ const parseForm = bodyParser.urlencoded({
     extended: true
 });
 
+const {dateToFormattedString} = require('./date');
+
 
 const es6renderer = require('express-es6-template-engine');
 app.engine('html', es6renderer);
 app.set('views', 'templates');
 app.set('view engine', 'html');
 
-
-
-const server = http.createServer(app);
 
 const users = require('./models/users');
 
@@ -49,15 +50,15 @@ const users = require('./models/users');
 // });
 
 
-// function requireLogin(req, res, next){
-//     if(req.session && req.session.user){
-//         console.log('require login says you are good');
-//         next();
-//     } else {
-//         console.log('incorrect username or password');
-//         res.redirect('users/auth');
-//     }
-// };
+function requireLogin(req, res, next){
+    if(req.session && req.session.user){
+        console.log('require login says you are good');
+        next();
+    } else {
+        console.log('incorrect username or password');
+        res.redirect('users/auth');
+    }
+};
 
 app.get('/signup', (req, res)=>{
     console.log('yes you are at the sign up');
@@ -73,12 +74,17 @@ app.post('/signup', parseForm, async (req, res)=>{
     const { username , password } = req.body
     const result = await users.create(username, password);
     console.log(result);
-    res.end();
-    res.redirect('users/auth');
+    // res.end();
+    res.redirect('/login')
 });
 
-app.get('/login', async (req,res) => {
-    res.render('users/auth');
+app.get('/login', (req,res) => {
+    res.render('users/auth', {
+        locals: {
+            username: '',
+            password: '',
+        }
+    });
 })
 
 app.post('/login', parseForm, async (req, res) =>{
@@ -97,17 +103,17 @@ app.post('/login', parseForm, async (req, res) =>{
     }else {
         console.log('Incorrect username or password.')
     } 
-    res.end();
+    res.redirect('/games');
 });
 
 
-// app.get('/games', requireLogin, async (req, res) =>{
+app.get('/games', (req, res) =>{
+    res.render('games')
+})
 
-// })
-
-// app.post('/games', requireLogin, async (req, res) =>{
-//     res.redirect('/chatrooms')
-// })
+app.post('/games', requireLogin, async (req, res) =>{
+    res.redirect('/chatrooms')
+})
 
 // app.get('/chatrooms', requireLogin, async (req, res) =>{
 
