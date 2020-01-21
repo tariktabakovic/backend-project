@@ -20,5 +20,7 @@ create table weeklyschedule (
     id serial primary key,
     away_team integer references nbateams(id),
     home_team integer references nbateams(id),
-    tipoff text
+    tipoff text,
+    dayofweek text,
+    day_id text
 );

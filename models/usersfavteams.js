@@ -24,7 +24,7 @@ async function updateFavTeams(team_id, user_id){
     const result = await db.result(`
         update usersfavteams set
             team_id = $1
-        where user_id = $2;
+        where user_id = $2
     `, [team_id, user_id]);
     if (result.rowCount === 1){
         return user_id;

@@ -1,0 +1,40 @@
+body {
+    font-family: sans-serif;
+    background-color: #c75600;
+    background-image: url("https://www.transparenttextures.com/patterns/basketball.png"); 
+}
+
+.game-container {
+    height: 1000px;
+    width: 1000px;
+
+    /* position: relative; */
+    /* flex-direction: row;
+    align-items: flex-start; */
+}
+
+a {
+    display: flex;
+    padding: 20px 40px 20px;
+}
+
+p {
+    display: flex;
+    padding: 20px;
+}
+
+.thu-game {
+
+}
+
+.fri-game{
+    
+}
+
+.sat-game{
+
+}
+
+.sun-game{
+
+}
