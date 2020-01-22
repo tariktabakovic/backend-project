@@ -1,3 +1,5 @@
+const db = require('./connection');
+
 async function createFavTeam(team_id, users_id){
     const result = await db.result(`
     insert into usersfavteams
@@ -9,36 +11,36 @@ values
     // owner_id in fullstack-pets
 };
 
-async function retrieveFavTeams(user_id){
+async function retrieveFavTeams(users_id){
     try {
-        const favTeams = await db.query(`select * from usersfavteams where ${user_id}`);
+        const favTeams = await db.query(`select * from usersfavteams where ${users_id}`);
         console.log(favTeams);
         return favTeams;
     } catch (err){
         console.log(err)
         return [];
     };
-}
+};
 
-async function updateFavTeams(team_id, user_id){
+async function updateFavTeams(team_id, users_id){
     const result = await db.result(`
         update usersfavteams set
             team_id = $1
-        where user_id = $2
-    `, [team_id, user_id]);
+        where users_id = $2
+    `, [team_id, users_id]);
     if (result.rowCount === 1){
-        return user_id;
+        return users_id;
     } else {
         return null;
     }
 };
 
-async function deleteFavTeams (team_id, user_id){
+async function deleteFavTeams (team_id, users_id){
     const result = await db.result(`
         delete from usersfavteams where 
             team_id = $1
-            user_id = $2,
-    `, [team_id, user_id])
+            users_id = $2,
+    `, [team_id, users_id])
 };
 
 module.exports = {

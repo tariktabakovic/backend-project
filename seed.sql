@@ -6,8 +6,10 @@ insert into users
 insert into nbateams
     (nameofteam)
     values
-('Atlanta Hawks'), 
-('Boston Celtics'), 
+('Atlanta Hawks'),
+-- , 'http://content.sportslogos.net/logos/6/218/full/7034_philadelphia_76ers-primary-2016.png'),
+('Boston Celtics'),
+-- , 'http://content.sportslogos.net/logos/6/227/full/6259_toronto_raptors-primary_on_dark-2016.png');
 ('Brooklyn Nets'),
 ('Charlotte Hornets'), 
 ('Chicago Bulls'), 
@@ -40,12 +42,12 @@ insert into nbateams
 insert into usersfavteams
     (team_id, users_id)
     values
-    ('2', '1');
+    ('1', '1');
 
 insert into weeklyschedule
     (away_team, home_team, tipoff, dayofweek, day_id)
     values
-    ('23', '28', '7:00pm', 'wednesday', '1'),
+    ('1', '2', '7:00pm', 'wednesday', '1'),
     ('14', '20', '7:30pm', 'wednesday', '1'),
     ('13', '1', '7:30pm', 'wednesday', '1'),
     ('14', '3', '8:00pm', 'thursday', '2'),

@@ -4,11 +4,15 @@ const app = express();
 
 const PORT = 3007;
 const server = http.createServer(app);
+const io = require('socket.io')(server);
+const path = require('path');
 
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
-app.use('/stylesheets', express.static('stylesheets'));
+// app.use('/favgames/:id', express.static(path.join(__dirname, 'users')))
 
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use('/stylesheets', express.static('stylesheets'));
 app.use(session({
     store: new FileStore({}),
 
@@ -39,15 +43,16 @@ app.set('view engine', 'html');
 
 
 const users = require('./models/users');
+const weeklyschedule = require('./models/weeklyschedule');
+const usersfavteams = require('./models/usersfavteams');
+app.get('/', async (req, res)=>{
+    res.render('home')
+})
 
-// app.get('/', async (req, res)=>{
-//     res.render('home')
-// })
-
-// app.post('/', async (req, res)=>{
+app.post('/', async (req, res)=>{
     
-//     res.redirect('users/auth')
-// });
+    res.redirect('users/auth')
+});
 
 
 function requireLogin(req, res, next){
@@ -72,8 +77,7 @@ app.get('/signup', (req, res)=>{
 
 app.post('/signup', parseForm, async (req, res)=>{
     const { username , password } = req.body
-    const result = await users.create(username, password);
-    console.log(result);
+    // console.log(result);
     // res.end();
     res.redirect('/login')
 });
@@ -89,7 +93,8 @@ app.get('/login', (req,res) => {
 
 app.post('/login', parseForm, async (req, res) =>{
     console.log(req.body);
-    const { username, password }= req.body;
+    const { username, password}= req.body;
+    const result = await users.create(username, password);
     const didLoginSuccessfully = await users.login(username, password);
     if (didLoginSuccessfully){
         const theUser = await users.getByUsername(username);
@@ -98,30 +103,78 @@ app.post('/login', parseForm, async (req, res) =>{
             id: theUser.id
         }
         req.session.save(()=>{
-            res.redirect('/games')
+            res.redirect(`/favteams/${req.session.user.id}`)
         });
     }else {
         console.log('Incorrect username or password.')
+        res.redirect(`/signup`);
     } 
-    res.redirect('/games');
+});
+
+app.get('/favteams/:id', parseForm, async (req, res)=>{
+    // const createFavTeam = await usersfavteams.createFavTeam(favoriteteam, req.session.user.id)
+    res.render(`users/favteams`,{
+        locals: {
+            favoriteteam: ''
+        }
+    });
+});
+
+app.post('/favteams/:id', parseForm, async (req, res)=>{
+    const user_id = req.session.user.id;
+    const team_id = parseInt(req.body.favoriteteam, 10);
+    console.log('favoriteteam: ')
+    console.log(req.body.favoriteteam)
+    const updateFavTeams = await usersfavteams.createFavTeam(team_id, user_id)
+    res.redirect(`/games/chatrooms`);
 });
 
 
-app.get('/games', (req, res) =>{
-    res.render('games')
-})
-
+app.get('/games', requireLogin, async (req, res) =>{
+    // const id = req.session.user.id
+    // const gameId1 = await weeklyschedule.getGameId(1)
+    // console.log(gameId1)
+    // title = 'Lets Chats Basketball';
+    // serialize = function(gameId1) {
+    //     var str = [];
+    //     for (var p in gameId1)
+    //       if (gameId1.hasOwnProperty(p)) {
+    //         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(gameId1[p]));
+    //       }
+    //     return str.join("&");
+    //   }
+    // console.log(serialize({
+    //     gameId: '1'
+    // }));
+    // console.log(id)
+    // // console.log(newGame);
+    // const user_id = req.session.user.id;
+    // console.log(id);
+    // const wednesdayGames = await weeklyschedule.getAllGames(1);
+    // const wednesdayTipOff1 = await weeklyschedule.getTipOff(1);
+    res.render(`games`);
+});
+        
+        
 app.post('/games', requireLogin, async (req, res) =>{
-    res.redirect('/chatrooms')
+    res.redirect(`/games/chatrooms`)
+});
+
+io.on('connection', function(socket){
+    socket.on('chat message', function(msg){
+        io.emit('chat message', msg);
+    });
+});
+
+app.get('/games/chatrooms', requireLogin, async (req, res) =>{
+    // const gameId = await weeklyschedule.getOneGame(1);
+    // console.log('chat page');
+    res.render('chatrooms')
+});
+
+app.post('/games/chatrooms', requireLogin, async (req, res) =>{
+
 })
-
-// app.get('/chatrooms', requireLogin, async (req, res) =>{
-
-// })
-
-// app.post('/chatrooms', requireLogin, async (req, res) =>{
-
-// })
 
 // app.get('/logout', requireLogin, async (req, res)=>{
 //     req.session.destroy(()=>{
@@ -130,5 +183,18 @@ app.post('/games', requireLogin, async (req, res) =>{
 // });
 
 server.listen(PORT, ()=>{
-    console.log(`listening on ${PORT}`)
+    console.log(`listening on ${PORT}`);
+    io.on('connection', function (socket) {
+        console.log("USER CONNECTED...");
+    
+        // handle new messages
+        socket.on('new:message', function (msgObject) {
+          io.emit('new:message', msgObject);
+        });
+    
+        // handle new members
+        socket.on('new:member', function (name) {
+          io.emit('new:member', name);
+        });
+    });
 });

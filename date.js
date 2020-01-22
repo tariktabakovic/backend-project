@@ -10,7 +10,7 @@ function dateToFormattedString(dateObject){
     }
     const dateString = `${year}-${month}-${day}`;
     return dateString;
-}
+};
 
 
 module.exports = {
