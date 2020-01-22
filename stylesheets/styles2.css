@@ -1,4 +1,4 @@
-body {
+* {
     font-family: sans-serif;
     background-color: #c75600;
     background-image: url("https://www.transparenttextures.com/patterns/basketball.png"); 
@@ -7,6 +7,7 @@ body {
 .game-container {
     height: 1000px;
     width: 1000px;
+    align-items: flex-start;
 
     /* position: relative; */
     /* flex-direction: row;
@@ -15,26 +16,10 @@ body {
 
 a {
     display: flex;
-    padding: 20px 40px 20px;
+    padding: 10px 10px 10px;
 }
 
 p {
     display: flex;
     padding: 20px;
-}
-
-.thu-game {
-
-}
-
-.fri-game{
-    
-}
-
-.sat-game{
-
-}
-
-.sun-game{
-
-}
+} 

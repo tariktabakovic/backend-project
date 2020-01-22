@@ -7,6 +7,7 @@ create table users (
 create table nbateams (
     id serial primary key,
     nameofteam text
+    -- logo text
 );
 
 create table usersfavteams(
@@ -22,5 +23,5 @@ create table weeklyschedule (
     home_team integer references nbateams(id),
     tipoff text,
     dayofweek text,
-    day_id text
+    day_id integer
 );

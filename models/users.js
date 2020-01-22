@@ -17,7 +17,7 @@ async function create(username, password){
     returning id
     `, [username, hash]);
     return result.id
-}
+};
 // function create(username, password){
 //     const hash = createHash(password);
 //     const newUser = {
@@ -37,7 +37,7 @@ async function getByUsername(username) {
     `, [username]);
 
     return theUser;
-}
+};
 
 async function login(username, password){
     const theUser= await getByUsername(username);
@@ -50,7 +50,7 @@ async function getUserById(id){
         select * from users where id=$1
     `, [id]);
     return theUser;
-}
+};
 
 async function deleteUser(id){
     const result = await db.none(`delete from users where id=$1`, [id]);
