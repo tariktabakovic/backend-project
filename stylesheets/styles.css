@@ -18,11 +18,11 @@ body {
     text-align: center;
 }
 
-.h1{
+h1{
     width: 300px;
     padding: 20px;
     position: relative;
-    top: 50%;
+    top: 100px;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
