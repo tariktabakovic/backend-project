@@ -18,16 +18,27 @@ body {
     text-align: center;
 }
 
+<<<<<<< HEAD
 h1{
     width: 300px;
     padding: 20px;
     position: relative;
     top: 100px;
+=======
+.h1{
+    width: 300px;
+    padding: 20px;
+    position: relative;
+    top: 50%;
+>>>>>>> ced38189f29b967412db2d2c226bd7715e7f00ed
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
+<<<<<<< HEAD
 /*  */
+=======
+>>>>>>> ced38189f29b967412db2d2c226bd7715e7f00ed
 
 .textbox{
     border: 0;

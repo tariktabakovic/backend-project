@@ -19,10 +19,18 @@ body {
 }
 
 .h1{
+<<<<<<< HEAD
     /* width: 300px; */
     padding: 20px;
     position: relative;
     top: 50%;
     /* left: 50%; */
+=======
+    width: 300px;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+>>>>>>> ced38189f29b967412db2d2c226bd7715e7f00ed
     text-align: center;
 }
