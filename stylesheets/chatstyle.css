@@ -44,6 +44,15 @@
     overflow-y: scroll;
 }
 
+.chat-form-container {
+    padding: 20px 30px;
+    background-color: lightblue;
+}
+
+.chat-form-container form {
+    display: flex;
+}
+
 .btn {
     cursor: pointer;
     padding: 5px 15px;
