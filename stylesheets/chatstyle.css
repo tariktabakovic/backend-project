@@ -34,6 +34,16 @@
     margin-bottom: 15px;
 }
 
+.chat-sidebar ul li {
+    padding: 10px 0;
+}
+
+.chat-messages {
+    padding: 30px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
 .btn {
     cursor: pointer;
     padding: 5px 15px;
