@@ -1,3 +1,9 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .chat-container {
     max-width: 1100px;
     background: #fff;
@@ -30,7 +36,7 @@
 
 .chat-sidebar h2{
     font-size: 20px;
-    background: black;
+    background: rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin-bottom: 20px;
 }
@@ -51,7 +57,7 @@
 
 .chat-form-container {
     padding: 20px 30px;
-    background-color: lightblue;
+    background-color: #667aff;
 }
 
 .chat-form-container form {
@@ -68,8 +74,8 @@
 .btn {
     cursor: pointer;
     padding: 5px 15px;
-    background: lightblue;
-    color: black;
+    background: #e6e9ff;
+    color: #667aff;
     border: 0;
     font-size: 17px;
 }
