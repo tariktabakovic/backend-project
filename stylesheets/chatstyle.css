@@ -33,3 +33,12 @@
 .chat-sidebar h3 {
     margin-bottom: 15px;
 }
+
+.btn {
+    cursor: pointer;
+    padding: 5px 15px;
+    background: lightblue;
+    color: black;
+    border: 0;
+    font-size: 17px;
+}
