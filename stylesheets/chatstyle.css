@@ -1,7 +1,14 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 16px;
+    background: #e6e9ff;
+    margin: 20px
 }
 
 .chat-container {
